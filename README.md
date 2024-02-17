@@ -1,12 +1,12 @@
 # command-encoder-decoder
 
-**Use your own commands to communicate with other hardware!.**
+Use your own commands to communicate with other hardware!.
 
-**With this library, you can use your own commands to communicate between different hardware devices in order to perform one or more operations.**
+With this library, you can use your own commands to communicate between different hardware devices in order to perform one or more operations.
 
-**To see how to use this library, refer to the test file.**
+To see how to use this library, refer to the test file.
 
-**I utilized this library along with pyserial to establish communication between Python and Arduino.**
+I utilized this library along with pyserial to establish communication between Python and Arduino.
 
 
 __Example:__
