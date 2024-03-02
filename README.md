@@ -4,9 +4,9 @@ Use your own commands to communicate with other hardware!.
 
 With this library, you can use your own commands to communicate between different hardware devices in order to perform one or more operations.
 
-To see how to use this library, refer to the test file.
-
 I utilized this library along with pyserial to establish communication between Python and Arduino.
+
+To see how to use this library for communication between Python and Arduino, refer to the arduino version file.
 
 
 __Example:__
