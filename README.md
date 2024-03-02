@@ -1,5 +1,7 @@
 # command-encoder-decoder
 
+Created by Behrad Pourhadi
+
 Use your own commands to communicate with other hardware!.
 
 With this library, you can use your own commands to communicate between different hardware devices in order to perform one or more operations.
