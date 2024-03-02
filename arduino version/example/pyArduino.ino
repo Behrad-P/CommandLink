@@ -6,6 +6,12 @@
  * @brief   pyArduino (.ino) 
 */
 
+/*
+#### NOTE ####
+Before using this example you need to download and install the PWM library written by Sam Knight.
+Link: https://github.com/terryjmyers/PWM
+*/
+
 
 #include "ardCd.hpp"
 #include <Servo.h>
