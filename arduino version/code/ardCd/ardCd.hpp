@@ -131,3 +131,4 @@ static const int NaN = -2;
 #include "implementation/ardCdImpl.hpp"
 
 #endif /* __ARDCD_HPP__ */
+
