@@ -7,131 +7,126 @@
 */
 
 
+#include <ctype.h>
 #include "cmded.hpp"
 
-// command-encoder-decoder namespace
-namespace ced
+static const int np = -1;
+static const int nan = -2;
+
+bool ced :: isNum(std :: string& str)
 {
-    bool CED :: isNum(std :: string& str)
+    if(str.empty() == true)
+        return false;
+
+    for (char ch : str)
     {
-        if(str.empty() == true)
+        if (!isdigit(ch))
+        {
             return false;
-
-        for (char ch : str)
-        {
-            if (!isdigit(ch))
-            {
-                return false;
-            }
         }
-
-        return true;
     }
 
-    CED :: CED(const std :: vector<std :: vector<std :: string> >& cmdVec) : commandVec(cmdVec)
-    {
-        for(int it = 0; it < cmdVec.size(); it++)
-            cmdlenVec.push_back(cmdVec[it].size());
-    }
+    return true;
+}
+
+ced :: ced(const std :: vector<std :: vector<std :: string> >& cmdVec) : commandVec(cmdVec)
+{
+    for(int it = 0; it < cmdVec.size(); it++)
+        cmdlenVec.push_back(cmdVec[it].size());
+}
+
+void ced :: decode(std :: string inputStr, const char sepChar, const char assignmentChar)
+{
     
-    void CED :: decode(std :: string inputStr, const char sepChar, const char assignmentChar)
+std :: string temp = "";
+int assignmentFlag = 0, cmdIt = 0, cmdNum = 0; 
+size_t inputStrLen = 0;
+
+    inputStr += sepChar;
+    inputStrLen = inputStr.size();
+
+    for(int it = 0; it < inputStrLen; it++)
     {
-        
-    std :: string temp = "";
-    int assignmentFlag = 0, cmdIt = 0, cmdNum = 0; 
-    size_t inputStrLen = 0;
-
-        inputStr += sepChar;
-        isNumeric = true; 
-        inputStrLen = inputStr.size();
-
-        for(int it = 0; it < inputStrLen; it++)
+        if(inputStr[it] != sepChar)
         {
-            if(inputStr[it] != sepChar)
-            {
-                if(inputStr[it] != assignmentChar)
-                    temp += inputStr[it];
-                else
-                {
-                    assignmentFlag = 1;
-                    it++;
-                    if(inputStr[it] != sepChar)
-                        temp += "NAN";
-                }
-            }
-            else if(it == 0 || (it > 0 && inputStr[it - 1] == sepChar))
-                continue;
-
+            if(inputStr[it] != assignmentChar)
+                temp += inputStr[it];
             else
             {
-                if(assignmentFlag == 0)
-                {	
-                    if(cmdIt < commandVec.size())
-                    {
-                        for(std :: string &str : commandVec[cmdIt])
-                        {
-                            if(str == temp)
-                            {
-                                decodedCmdVec.push_back(cmdNum);
-                                break;
-                            }
-                            cmdNum++;
-                        }
+                assignmentFlag = 1;
+                it++;
+                if(inputStr[it] != sepChar)
+                    temp += "NAN";
+            }
+        }
+        else if(it == 0 || (it > 0 && inputStr[it - 1] == sepChar))
+            continue;
 
-                        if(cmdNum == cmdlenVec[cmdIt])
-                            decodedCmdVec.push_back(NP);
-                            
-                        cmdNum = 0;
-                    }
-                    else
-                        decodedCmdVec.push_back(NP);
-
-                    cmdIt++;	
-                }
-                else
+        else
+        {
+            if(assignmentFlag == 0)
+            {	
+                if(cmdIt < commandVec.size())
                 {
-                    if(isNum(temp) == false)
+                    for(std :: string& str : commandVec[cmdIt])
                     {
-                        isNumeric = false; 
-                        decodedNumVec.push_back(0);
+                        if(str == temp)
+                        {
+                            decodedCmdVec.push_back(cmdNum);
+                            break;
+                        }
+                        cmdNum++;
                     }
-                    else
-                        decodedNumVec.push_back(stoi(temp));
-                
+
+                    if(cmdNum == cmdlenVec[cmdIt])
+                        decodedCmdVec.push_back(np);
+                        
+                    cmdNum = 0;
+                    cmdIt++;
                 }
-                temp.clear(); 
-            }   
+            }
+            
+            else
+            {
+                if(isNum(temp) == false)
+                    decodedNumVec.push_back(nan);
+                    
+                else
+                    decodedNumVec.push_back(stoi(temp));
+            }
+
+            temp.clear();  
         }   
-    }
+    }   
+}
 
-    std :: string CED :: encode(std :: vector<int>& eCmdVec, std :: vector<int>& eNumVec, const char sepChar, const char assignmentChar) const
+std :: string ced :: encode(std :: vector<int>& eCmdVec, std :: vector<int>& eNumVec, const char sepChar, const char assignmentChar) const
+{
+
+std :: string temp = "";
+int eCmdVecSize = eCmdVec.size();
+int eNumVecSize = eNumVec.size();
+
+    if(eCmdVec.size() > commandVec.size())
+        return "Can not be encoded!";
+
+    for(int it = 0; it < eCmdVecSize; it++)
     {
-
-    std :: string temp = "";
-    int eCmdVecSize = eCmdVec.size();
-    int eNumVecSize = eNumVec.size();
-
-        if(eCmdVec.size() > commandVec.size())
-            return "Can not be encoded!";
-
-        for(int it = 0; it < eCmdVecSize; it++)
-        {
-            temp += commandVec[it].at(eCmdVec[it]);
-            temp += sepChar;
-        }
-
-        temp += assignmentChar;
+        temp += commandVec[it].at(eCmdVec[it]);
         temp += sepChar;
-
-        for(int it = 0; it < eNumVecSize; it++)
-        {
-            temp += std :: to_string(eNumVec[it]);
-            temp += sepChar;
-        }
-
-        return temp;
     }
-    
-} /* ced namespace */
+
+    temp += assignmentChar;
+    temp += sepChar;
+
+    for(int it = 0; it < eNumVecSize; it++)
+    {
+        temp += std :: to_string(eNumVec[it]);
+        temp += sepChar;
+    }
+
+    return temp;
+}
+
 
 
