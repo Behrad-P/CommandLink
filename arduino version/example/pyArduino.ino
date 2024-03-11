@@ -10,6 +10,10 @@
 #### NOTE ####
 Before using this example you need to download and install the PWM library written by Sam Knight.
 Link: https://github.com/terryjmyers/PWM
+
+Then copy the ardCd folder to the Arduino libraries path.
+
+######
 */
 
 
@@ -27,10 +31,10 @@ Link: https://github.com/terryjmyers/PWM
                           ((idx) == 11))  
                           
 #define is_pwm_pin(idx) (((idx) == 3)   || \
-                         ((idx) == 9)    || \
+                         ((idx) == 9)   || \
                          ((idx) == 10))
 
-#define is_servo_pin(idx) (((idx) == 9)   || \
+#define is_servo_pin(idx) (((idx) == 9) || \
                            ((idx) == 10))                             
 
 enum commands{
@@ -63,15 +67,15 @@ const String baseCmd_2[] = {".0", ".1", ".2", ".3", ".4", ".5",".6", ".7", ".8",
 														".14", ".15", ".16", ".17", ".18", ".19"};
 
 
-ardCd<2, 2> pyArduino;
+ardCd<2, 1> pyArduino;
 Servo servoMotor;
 
 String inputStr;
 int cmd;
 int idx;
 int val;
-int cmdHis = ardCd<2, 2> :: NP;
-int idxHis = ardCd<2, 2> :: NP;
+int cmdHis = ardCd<2, 1> :: NP;
+int idxHis = ardCd<2, 1> :: NP;
 bool success;
 bool isMemGood;
 
@@ -96,7 +100,7 @@ void loop() {
   inputStr = Serial.readString();
   pyArduino.decode(inputStr);
   cmd = pyArduino.getCmd(0);
-  if(cmd == ardCd<2, 2> :: NP)
+  if(cmd == ardCd<2, 1> :: NP)
     error(badCmd);
 
   else
@@ -274,11 +278,11 @@ bool l1_errors()
 {
 bool status = true;
 
-  if(idx == ardCd<2, 2> :: NP){ error(idxNF); status = false; } 
+  if(idx == ardCd<2, 1> :: NP){ error(idxNF); status = false; } 
 
-  else if(val == ardCd<2, 2> :: NP){ error(assgnmentNF); status = false; }
+  else if(val == ardCd<2, 1> :: NP){ error(assgnmentNF); status = false; }
 
-  else if(val == ardCd<2, 2> :: NaN){ error(notNum); status = false; }
+  else if(val == ardCd<2, 1> :: NaN){ error(notNum); status = false; }
 
   return status;
 
@@ -288,9 +292,9 @@ bool l2_errors()
 {
 bool status = true;
 
-  if(idx == ardCd<2, 2> :: NP){ error(idxNF); status = false; } 
+  if(idx == ardCd<2, 1> :: NP){ error(idxNF); status = false; } 
 
-  else if(val != ardCd<2, 2> :: NP){ error(assgnmentF); status = false; }
+  else if(val != ardCd<2, 1> :: NP){ error(assgnmentF); status = false; }
 
   return status;
 }
