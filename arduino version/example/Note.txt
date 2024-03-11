@@ -3,3 +3,8 @@
 Before using this example you need to download and install the PWM library written by Sam Knight.
 
 Link: https://github.com/terryjmyers/PWM
+
+
+Then copy the ardCd folder to the Arduino libraries path.
+
+######
