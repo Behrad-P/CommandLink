@@ -4,7 +4,8 @@
  * @author  Behrad Pourhadi
  * @email   behradp32@gmail.com
  * @ide     Visual Studio Code
- * @brief   pyArduino (.py) 
+ * @brief   pyArduino (.py)
+ * @explanation   Using the ardCd library, the pulse width of the PWM mode is changed on the Arduino Nano. 
 */
 """
 
