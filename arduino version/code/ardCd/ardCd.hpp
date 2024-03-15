@@ -46,6 +46,13 @@ static const int NaN = -2;
     ardCd();
 
     /**
+     * @brief  Destructor  
+     * @param  None
+     * @retval None
+     */
+    ~ardCd();
+
+    /**
      * @brief  Convert the input string to the number (index) of the base commands
      * @param  inputStr: Input string 
      * @param  sepChar: Separator character, default: ' ' (There must be at least one separator character between each commands and numbers)
@@ -60,7 +67,7 @@ static const int NaN = -2;
      * @param  baseCmd: An array of base commands
      * @param  size: Number of base commands
      * @param  idx: The number or index of the base command array where new commands will be stored. (it starts from 0)
-     * @retval "Ok": If there is no problem
+     * @retval "Memory allocation was successful": If there is no problem
      * @retval "Index out of bounds!": If Index is out of bounds
      * @retval "Memory allocation failed!": If there is a problem with memory allocation
      */
