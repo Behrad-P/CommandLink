@@ -82,8 +82,10 @@ bool isMemGood;
 void setup() {
   Serial.begin(9600);
   Serial.setTimeout(10);
-  pyArduino.addBaseCmd(baseCmd_1, 6, 0);
-	pyArduino.addBaseCmd(baseCmd_2, 20, 1);
+  Serial.println(pyArduino.addBaseCmd(baseCmd_1, 6, 0));
+  delay(1000);
+  Serial.println(pyArduino.addBaseCmd(baseCmd_2, 20, 1));
+  delay(1000);
   if(pyArduino.memStatus() == false)
   {
     while(1)
