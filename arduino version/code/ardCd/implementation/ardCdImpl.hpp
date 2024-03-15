@@ -11,7 +11,7 @@
 #define __ARDCDIMPL_HPP__
 
 template<int MAX_CMD_SIZE, int MAX_NUM_SIZE>
-bool ardCd<MAX_CMD_SIZE, MAX_NUM_SIZE> :: isNum(String& str) const
+inline bool ardCd<MAX_CMD_SIZE, MAX_NUM_SIZE> :: isNum(String& str) const
 {
     if(str == "")
         return false;
@@ -39,22 +39,7 @@ ardCd<MAX_CMD_SIZE, MAX_NUM_SIZE> :: ardCd()
         cmdLen[it] = 0;
 
         if(baseCommand[it] != nullptr)
-        {
-            delete [] baseCommand[it];
-            baseCommand[it] = nullptr;
-        }	
-    }
-    
-    if(decodedCmd != nullptr)
-    {
-        delete [] decodedCmd;
-        decodedCmd = nullptr;
-    }
-
-    if(decodedNum != nullptr)
-    {
-        delete [] decodedNum;
-        decodedNum = nullptr;
+            baseCommand[it] = nullptr;	
     }
 
     decodedCmd = new int[MAX_CMD_SIZE];
@@ -65,7 +50,25 @@ ardCd<MAX_CMD_SIZE, MAX_NUM_SIZE> :: ardCd()
 }
 
 template<int MAX_CMD_SIZE, int MAX_NUM_SIZE>
-bool ardCd<MAX_CMD_SIZE, MAX_NUM_SIZE> :: decode(String inputStr, const char sepChar, const char assignmentChar)
+ardCd<MAX_CMD_SIZE, MAX_NUM_SIZE> :: ~ardCd()
+{
+    delete [] decodedCmd;
+    delete [] decodedNum;
+    decodedCmd = nullptr;
+    decodedNum = nullptr;
+
+    for(int it = 0; it < MAX_CMD_SIZE; it++)
+    {
+        if(baseCommand[it] != nullptr)
+        {
+            delete [] baseCommand[it];
+            baseCommand[it] = nullptr;
+        }	
+    } 
+}
+
+template<int MAX_CMD_SIZE, int MAX_NUM_SIZE>
+inline bool ardCd<MAX_CMD_SIZE, MAX_NUM_SIZE> :: decode(String inputStr, const char sepChar, const char assignmentChar)
 {
 
 String temp = "";
@@ -170,7 +173,7 @@ String ardCd<MAX_CMD_SIZE, MAX_NUM_SIZE> :: addBaseCmd(const String baseCmd[], c
         baseCommand[idx][it] = baseCmd[it];
     }
 
-    return "Ok";
+    return "Memory allocation was successful";
 }
 
 #endif /*__ARDCDIMPL_HPP__*/
