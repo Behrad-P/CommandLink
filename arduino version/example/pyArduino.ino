@@ -71,6 +71,7 @@ ardCd<2, 1> pyArduino;
 Servo servoMotor;
 
 String inputStr;
+String preStr;
 int cmd;
 int idx;
 int val;
@@ -100,7 +101,11 @@ void loop() {
 
   while(!Serial.available());
   inputStr = Serial.readString();
-  pyArduino.decode(inputStr);
+  if(inputStr != preStr)
+  {
+    pyArduino.decode(inputStr);
+    preStr = inputStr;
+  }
   cmd = pyArduino.getCmd(0);
   if(cmd == ardCd<2, 1> :: NP)
     error(badCmd);
@@ -300,4 +305,3 @@ bool status = true;
 
   return status;
 }
-
